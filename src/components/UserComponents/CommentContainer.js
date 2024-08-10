@@ -68,12 +68,12 @@ const CommentContainer = ({taskId}) => {
     },[taskId,currentPage])
   return (
     <div>
-        <div className="flex h-fit">
-            <div className="w-[45%] border border-slate-200 p-4 flex flex-col">
+        <div className="flex md:flex-row flex-col h-fit">
+            <div className="md:w-[45%] w-full border border-slate-200 p-4 flex flex-col">
                 <textarea name="comment" value={commentText} onChange={(e)=>setCommentText(e.target.value)} id="comment" className='border border-slate-300 w-full p-4 rounded-md shadow-lg' rows={10}></textarea>
                 <button className='bg-slate-900 text-white rounded-md p-4 mt-4' onClick={handleSubmit}>Comment</button>
             </div>
-            <div className="w-[55%] border border-slate-200">
+            <div className="md:w-[55%] w-full border border-slate-200">
                 <p className='text-center mt-4'>COMMENTS</p>
                 {
                     (!comments.length) && <p className='text-center'>No Comments Found</p>

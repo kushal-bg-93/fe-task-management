@@ -36,7 +36,7 @@ const ViewTaskContainer = () => {
 {userStory&&
      <>   <CheckLogin/>
         <div className="flex flex-col w-screen">
-        <div className="flex">
+        <div className="md:flex md:flex-row flex-col">
             <MainTaskContainer userStory={userStory}/>
 
             <RightPanelContainer key={userStory?._id} userStory={userStory}/>

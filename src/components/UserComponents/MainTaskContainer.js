@@ -33,11 +33,11 @@ const MainTaskContainer = ({userStory}) => {
         }
     }
   return (
-    <div className='w-[80%] border-b-0 border-r border-slate-200 p-4'>
+    <div className='md:w-[80%] w-full border-b-0 border-r border-slate-200 p-4'>
         <div className="flex flex-col">
             <div className="flex justify-between mt-10">
-                <h1 className='text-4xl font-extrabold text-slate-900 w-[85%]'>{userStory?.title}</h1>
-                <div className='flex gap-2 text-center align-middle items-center w-[15%]'>
+                <h1 className='md:text-4xl text-lg font-extrabold text-slate-900 w-[70%] md:w-[85%]'>{userStory?.title}</h1>
+                <div className='flex gap-2 text-center align-middle items-center w-[30] md:w-[15%]'>
                 <BsCalendarDate className='text-slate-900'/>
                 <p className='text-slate-400 font-bold'>
                     {moment(userStory?.deadline).format('YYYY-MM-DD')}
