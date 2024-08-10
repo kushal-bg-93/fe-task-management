@@ -8,7 +8,7 @@ import { Link } from 'react-router-dom';
 const MainTaskContainer = ({userStory}) => {
     console.log('This is user story',userStory)
   return (
-    <div className='w-[80%] border-b-0 border-r border-slate-200 shadow-lg p-4'>
+    <div className='w-[80%] border-b-0 border-r border-slate-200 p-4'>
         <div className="flex flex-col">
             <div className="flex justify-between mt-10">
                 <h1 className='text-4xl font-extrabold text-slate-900'>{userStory?.title}</h1>

@@ -2,6 +2,7 @@ import React, { useEffect, useState } from 'react'
 import { BACKEND_IMAGE_URL, BACKEND_URL } from '../../utils/constants'
 import Cookies from 'universal-cookie'
 import socketIOClient from 'socket.io-client';
+import moment from 'moment';
 
 const socket = socketIOClient('http://localhost:5000',{ transports : ['websocket'] });
 
@@ -58,10 +59,13 @@ const CommentContainer = ({taskId}) => {
         if(comments.length){
             setComments([comment,...comments]);
             
+        }else {
+            setComments([comment])
         }
         console.log('Thesee after insertion',comments)
         // console.log("This is comment from socket >>",comment)
       });
+
     useEffect(()=>{
         getComments()
     },[currentPage])
@@ -75,17 +79,23 @@ const CommentContainer = ({taskId}) => {
             <div className="w-[55%] border border-slate-200">
                 <p className='text-center mt-4'>COMMENTS</p>
                 {
-                    !comments && <p className='text-center'>No Comments Found</p>
+                    (!comments.length) && <p className='text-center'>No Comments Found</p>
                 }
                 {
-                    comments.length && <>
-                    <div className="flex flex-col gap-5 p-4">
+                    (comments.length) && <>
+                    <div className="flex flex-col gap-5 p-6">
                     {
-                        comments.map(comment=>(<div className='flex items-center gap-3 border border-slate-400 p-4 rounded-lg'>
-                          <p className='bg-slate-900 text-white rounded-full p-5'>
+                        comments.map(comment=>(<div className='flex flex-col gap-3 border border-slate-300 shadow-md p-4 rounded-lg'>
+                            <div className="flex justify-between items-center align-middle">
+                            <p className='text-slate-500'>{comment?.email}</p>
+                            <p className='text-slate-500'>{moment(comment?.createdAt).format('YYYY-MM-DD HH:MM')}</p>
+                            </div>
+                            <div className='flex items-center gap-3'>
+                          <p className='bg-slate-900 text-white rounded-full p-5 my-5'>
                             {comment?.email[0]}
                             </p> 
-                            <p>{comment?.comment}</p> 
+                            <p className='text-slate-500'>{comment?.comment}</p> 
+                            </div>
                         </div>))
                     }
                     <div>
