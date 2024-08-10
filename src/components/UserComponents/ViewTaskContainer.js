@@ -29,20 +29,24 @@ const ViewTaskContainer = () => {
 
     useEffect(()=>{
         setStoryData()
-    },[])
+    },[taskId])
   return (
+    
     <div>
-        <CheckLogin/>
+{userStory&&
+     <>   <CheckLogin/>
         <div className="flex flex-col w-screen">
         <div className="flex">
             <MainTaskContainer userStory={userStory}/>
 
-            <RightPanelContainer userStory={userStory}/>
+            <RightPanelContainer key={userStory?._id} userStory={userStory}/>
         </div>
         <div className="w-full border border-slate-200">
-            <CommentContainer taskId={taskId.id}/>
+            <CommentContainer key={userStory?._id} taskId={taskId.id}/>
         </div>
         </div>
+        </>
+        }
     </div>
   )
 }

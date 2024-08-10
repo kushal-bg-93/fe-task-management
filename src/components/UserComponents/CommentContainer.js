@@ -1,10 +1,10 @@
 import React, { useEffect, useState } from 'react'
-import { BACKEND_IMAGE_URL, BACKEND_URL } from '../../utils/constants'
+import { BACKEND_IMAGE_URL, BACKEND_SOCKET_URL, BACKEND_URL } from '../../utils/constants'
 import Cookies from 'universal-cookie'
 import socketIOClient from 'socket.io-client';
 import moment from 'moment';
 
-const socket = socketIOClient('https://be-task-management-production.up.railway.app',{ transports : ['websocket'] });
+const socket = socketIOClient(BACKEND_SOCKET_URL,{ transports : ['websocket'] });
 
 const CommentContainer = ({taskId}) => {
     const [comments,setComments]=useState([])
@@ -53,22 +53,19 @@ const CommentContainer = ({taskId}) => {
 
     }
 
-    socket.on('newComment', (comment) => {
-        console.log('These are comments',comments)
-        console.log('This is length of comments ',comments.length)
+    socket.on(`newComment:${taskId}`, (comment) => {
         if(comments.length){
             setComments([comment,...comments]);
             
         }else {
             setComments([comment])
         }
-        console.log('Thesee after insertion',comments)
         // console.log("This is comment from socket >>",comment)
       });
 
     useEffect(()=>{
         getComments()
-    },[currentPage])
+    },[taskId,currentPage])
   return (
     <div>
         <div className="flex h-fit">
@@ -85,13 +82,13 @@ const CommentContainer = ({taskId}) => {
                     (comments.length) && <>
                     <div className="flex flex-col gap-5 p-6">
                     {
-                        comments.map(comment=>(<div className='flex flex-col gap-3 border border-slate-300 shadow-md p-4 rounded-lg'>
+                        comments.map(comment=>(<div className='flex flex-col gap-3 border border-slate-300 shadow-md p-4 rounded-lg' key={comment._id}>
                             <div className="flex justify-between items-center align-middle">
                             <p className='text-slate-500'>{comment?.email}</p>
                             <p className='text-slate-500'>{moment(comment?.createdAt).format('YYYY-MM-DD HH:MM')}</p>
                             </div>
                             <div className='flex items-center gap-3'>
-                          <p className='bg-slate-900 text-white rounded-full p-5 my-5'>
+                          <p className='bg-slate-900 text-white rounded-full px-4 py-2 my-5'>
                             {comment?.email[0]}
                             </p> 
                             <p className='text-slate-500'>{comment?.comment}</p> 
