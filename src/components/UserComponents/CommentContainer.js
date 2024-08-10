@@ -4,7 +4,7 @@ import Cookies from 'universal-cookie'
 import socketIOClient from 'socket.io-client';
 import moment from 'moment';
 
-const socket = socketIOClient('http://localhost:5000',{ transports : ['websocket'] });
+const socket = socketIOClient('https://be-task-management-production.up.railway.app',{ transports : ['websocket'] });
 
 const CommentContainer = ({taskId}) => {
     const [comments,setComments]=useState([])
