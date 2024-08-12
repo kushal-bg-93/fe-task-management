@@ -43,7 +43,7 @@ const Tasks = () => {
       <CheckLogin/>
       {showModal && <CreateTaskPopup setModal={setShowModal}/>}
       <div className="flex my-4 mx-2">
-        <button className='bg-slate-900 text-white md:p-4 p-1 text-[6px] rounded-md ' onClick={()=>setShowModal(true)}>CREATE TASK</button>
+        <button className='bg-slate-900 text-white md:text-base md:p-4 p-1 text-[6px] rounded-md ' onClick={()=>setShowModal(true)}>CREATE TASK</button>
       </div>
       {tasks&&<div className="flex gap-2 overflow-x-auto md:mx-2 mx-0 my-4">
         <table className='min-w-full  bg-white border-gray-200 shadow-md rounded-lg overflow-hidden'>
