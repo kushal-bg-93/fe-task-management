@@ -122,7 +122,7 @@ let userId=cookies.get('userId')
 
 
   return (
-    <div className='w-full'>
+    <div className='w-full overflow-x-hidden'>
       <div className="md:flex md:flex-row flex flex-col gap-4 m-5">
         <div className="md:w-[60%] w-full">
 

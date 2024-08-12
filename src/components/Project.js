@@ -54,7 +54,7 @@ const Project = () => {
     }
 
   return (
-    <div>
+    <div className='overflow-x-hidden'>
         <CheckLogin/>
         {modalStatus?.showModal && <div>
             <div className="w-[40%] border border-slate-300 absolute bg-white p-4 rounded-md shadow-2xl translate-x-[-50%] translate-y-[-50%] top-[30%] left-[50%] flex items-center text-center z-10">
@@ -66,11 +66,11 @@ const Project = () => {
         <div className="p-3">
             <button className='bg-slate-900 text-white p-1 text-[7px] md:text-base md:p-3 rounded-md' onClick={()=>dispatch(setModal())}>+ Create Project</button>
             <div className="md:my-5 my-2">
-                <div className="flex flex-col md:flex-row gap-2 md:gap-10 flex-wrap">
+                <div className="flex flex-col md:flex-row gap-2 w-screen md:gap-10 md:flex-wrap">
                     {
                      project&&project.map(item=>{
                             return (
-                                <div className="border border-slate-300 p-4 rounded-md shadow-md w-80 align-middle cursor-pointer hover:scale-105 ease-in-out delay-0" key={item._id}>
+                                <div className="border border-slate-300 p-4 rounded-md shadow-md w-[80%] md:w-80 align-middle cursor-pointer hover:scale-105 ease-in-out delay-0" key={item._id}>
                                 <p className='font-bold text-center'>{item?.name}</p>
                                 <hr/>
                                 <p className="text-center">{item._id}</p>

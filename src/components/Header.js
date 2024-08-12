@@ -6,7 +6,7 @@ const Header = () => {
     const cookies = new Cookies(null, { path: '/'});
   return (
     <>
-        <div className="bg-slate-900 shadow-2xl flex justify-between">
+        <div className="bg-slate-900 w-full shadow-2xl flex justify-between">
             <Link to="/">
             <div className="flex gap-1 items-center">
             <img src="https://dms-prod-storage1.censanext.com/receivable/logo_1723037534.png" alt="logo" className='w-11 m-1'/>
