@@ -64,9 +64,9 @@ const Project = () => {
             </div>
             </div>}
         <div className="p-3">
-            <button className='bg-slate-900 text-white p-3 rounded-md' onClick={()=>dispatch(setModal())}>+ Create Project</button>
-            <div className="my-5">
-                <div className="flex gap-10 flex-wrap">
+            <button className='bg-slate-900 text-white p-1 text-[7px] md:text-base md:p-3 rounded-md' onClick={()=>dispatch(setModal())}>+ Create Project</button>
+            <div className="md:my-5 my-2">
+                <div className="flex flex-col md:flex-row gap-2 md:gap-10 flex-wrap">
                     {
                      project&&project.map(item=>{
                             return (

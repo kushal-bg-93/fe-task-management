@@ -79,7 +79,7 @@ const CommentContainer = ({taskId}) => {
                     (!comments.length) && <p className='text-center'>No Comments Found</p>
                 }
                 {
-                    (comments.length) && <>
+                    (comments.length) ? <>
                     <div className="flex flex-col gap-5 p-6">
                     {
                         comments.map(comment=>(<div className='flex flex-col gap-3 border border-slate-300 shadow-md p-4 rounded-lg' key={comment._id}>
@@ -99,7 +99,7 @@ const CommentContainer = ({taskId}) => {
                         {(currentPage!==totalPage)&&<button onClick={()=>setCurrentPage(currentPage+1)} className='border border-slate-900 text-slate-900 p-3 rounded-xl'>View Older Comments</button>}
                     </div>
                     </div>
-                    </>
+                    </>:""
                 }
             </div>
         </div>

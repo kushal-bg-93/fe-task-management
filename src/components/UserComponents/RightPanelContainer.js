@@ -123,7 +123,7 @@ const RightPanelContainer = ({ userStory }) => {
             <select name="status" id="" ref={statusRef} onChange={handleStatusChange}>
               <option value="on progress">On Progress</option>
               <option value="done">Done</option>
-              <option value=" " selected='selected'> </option>
+              <option value=" " selected='selected' disabled>Select Status </option>
 
             </select>
           </div>

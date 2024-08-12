@@ -50,11 +50,11 @@ const ViewTasks = () => {
         <table className='min-w-full bg-white border-gray-200 shadow-md rounded-lg overflow-hidden'>
             <thead className='bg-gray-200 text-slate-900'>
               <tr>
-                <th className='py-2 px-4'>Id</th>
-                <th className='py-2 px-4'>Tasks</th>
-                <th className='py-2 px-4'>Status</th>
-                <th className='py-2 px-4'>Priority</th>
-                <th className='py-2 px-4'>Show</th>
+                <th className='md:py-2 md:px-4 md:text-base text-[10px] py-1 px-1 '>Id</th>
+                <th className='md:py-2 md:px-4 md:text-base text-[10px] py-1 px-1 '>Tasks</th>
+                <th className='md:py-2 md:px-4 md:text-base text-[10px] py-1 px-1 '>Status</th>
+                <th className='md:py-2 md:px-4 md:text-base text-[10px] py-1 px-1 '>Priority</th>
+                <th className='md:py-2 md:px-4 md:text-base text-[10px] py-1 px-1 '>Show</th>
 
               </tr>
             </thead>
@@ -62,13 +62,12 @@ const ViewTasks = () => {
             {
               taskData && taskData.map((item) => {
                 let color=(item?.priority=='normal')?'bg-green-700 text-white':(item?.priority=='moderate')?'bg-orange-500 text-white':'bg-red-700 text-white'
-                console.log('this iscolor>>',color)
                 return(
                 <tr key={item._id} className="hover:bg-gray-100 border-b border-gray-200 py-4">
-                  <td className="py-2 px-4">{item._id}</td>
-                  <td className="py-2 px-4">{item.title}</td>
-                  <td className="py-2 px-4">{item.status}</td>
-                  <td className={`py-2 px-4 ${color}`}>{item.priority}</td>
+                  <td className="md:py-2 md:px-4 md:text-base text-[10px] py-1 px-1">{item._id}</td>
+                  <td className="md:py-2 md:px-4 md:text-base text-[10px] py-1 px-1">{item.title}</td>
+                  <td className="md:py-2 md:px-4 md:text-base text-[10px] py-1 px-1">{item.status}</td>
+                  <td className={`md:py-2 md:px-4 md:text-base text-[10px] py-1 px-1 ${color}`}>{item.priority}</td>
                   <td className="py-2 px-4"><Link to={'/user/view-task/'+item._id} className='text-sky-600 hover:underline'>View</Link></td>
                 </tr>
               )})
