@@ -33,7 +33,7 @@ const MainTaskContainer = ({userStory}) => {
         }
     }
   return (
-    <div className='md:w-[80%] w-full border-b-0 border-r border-slate-200 p-4'>
+    <div key={userStory?._id} className='md:w-[80%] w-full border-b-0 border-r border-slate-200 p-4'>
         <div className="flex flex-col">
             <div className="flex justify-between mt-10">
                 <h1 className='md:text-4xl text-lg font-extrabold text-slate-900 w-[70%] md:w-[85%]'>{userStory?.title}</h1>
@@ -61,7 +61,7 @@ const MainTaskContainer = ({userStory}) => {
                 </div>}
                 </div>
                 <div className="flex flex-col gap-3">
-                    <ViewSubtask taskId={userStory?._id} projectId={userStory?.projectId}/>
+                    <ViewSubtask key={userStory?._id} taskId={userStory?._id} projectId={userStory?.projectId}/>
                 </div>
             </div>
             <div className='mt-10'>

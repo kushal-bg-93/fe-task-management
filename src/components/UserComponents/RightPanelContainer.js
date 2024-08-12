@@ -1,9 +1,12 @@
 import React, { useEffect, useRef, useState } from 'react'
 import { BACKEND_SOCKET_URL, BACKEND_URL } from '../../utils/constants'
-import { token,userId } from '../../utils/getToken'
 import socketIOClient from 'socket.io-client'
+import Cookies from 'universal-cookie'
 
 const RightPanelContainer = ({ userStory }) => {
+  const cookies = new Cookies(null, { path: '/'});
+let token=cookies.get('token')
+let userId=cookies.get('userId')
   // console.log("this is user story in right pannel", userStory)
   // const {assignedTo}=userStory
   const socket = socketIOClient(BACKEND_SOCKET_URL,{ transports : ['websocket'] });
@@ -11,7 +14,24 @@ const RightPanelContainer = ({ userStory }) => {
   const [assignedByEmail,setAssignedByEmail]=useState(null)
   const [taskStatus,setTaskStatus]=useState(userStory.status)
   const [statusPopup,setStatusPopup]=useState(false)
+  const [forceUpdate, setForceUpdate] = useState(false);
   const statusRef=useRef(null)
+
+  const getOwnerEmail=async()=>{
+    let ownerEmail=await fetch(BACKEND_URL + '/common-tasks/getEmail', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+        'authorization': token
+      },
+      body:JSON.stringify({
+        createdBy:userStory?.createdBy
+      })
+    })
+
+    ownerEmail=await ownerEmail.json()
+    setAssignedByEmail(ownerEmail?.result?.data)
+  }
 
 
   const getEmails = async() => {
@@ -27,20 +47,10 @@ const RightPanelContainer = ({ userStory }) => {
       })
     })  
 
-    let ownerEmail=await await fetch(BACKEND_URL + '/common-tasks/getEmail', {
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/json',
-        'authorization': token
-      },
-      body:JSON.stringify({
-        createdBy:userStory?.createdBy
-      })
-    })
+   
 
     data = await data.json()
-    ownerEmail=await ownerEmail.json()
-    setAssignedByEmail(ownerEmail?.result?.data)
+    
     setEmails(data?.result?.data)
   }
 
@@ -65,8 +75,20 @@ const RightPanelContainer = ({ userStory }) => {
   }
   useEffect(() => {
       getEmails()
-  }, [assignedByEmail])
-  return (
+      getOwnerEmail()
+
+      
+  }, [])
+
+  useEffect(()=>{
+    return () => {
+      socket.disconnect();
+      console.log('Socket disconnected');
+    };
+  },[])
+
+
+  return (userStory)?(
     <div className='flex flex-col gap-5 p-2'>
       <div className="">
 
@@ -133,7 +155,7 @@ const RightPanelContainer = ({ userStory }) => {
         </div>
       </div>
     </div>
-  )
+  ):""
 }
 
 export default RightPanelContainer

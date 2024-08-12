@@ -1,15 +1,17 @@
 import React, { useEffect, useRef, useState } from 'react'
 import { BACKEND_SOCKET_URL, BACKEND_URL } from '../utils/constants'
-import { token, userId } from '../utils/getToken'
 import TableComponent from './TableComponent'
 import socketIOClient from 'socket.io-client'
+import Cookies from 'universal-cookie'
 
 
 const Users = () => {
 
   const socket = socketIOClient(BACKEND_SOCKET_URL,{ transports : ['websocket'] });
 
-  
+  const cookies = new Cookies(null, { path: '/'});
+let token=cookies.get('token')
+let userId=cookies.get('userId')
 
 
   let projectSearch=useRef(null)
@@ -111,6 +113,11 @@ const Users = () => {
   useEffect(()=>{
     getUsers()
     getProject()
+
+    return () => {
+      socket.disconnect();
+      console.log('Socket disconnected');
+    };
   },[])
 
 

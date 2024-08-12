@@ -65,7 +65,16 @@ const CommentContainer = ({taskId}) => {
 
     useEffect(()=>{
         getComments()
+
+        
     },[taskId,currentPage])
+
+    useEffect(()=>{
+        return () => {
+            socket.disconnect();
+            console.log('Socket disconnected');
+          };
+    },[])
   return (
     <div>
         <div className="flex md:flex-row flex-col h-fit">

@@ -33,20 +33,20 @@ const ViewTaskContainer = () => {
   return (
     
     <div>
-{userStory&&
+{userStory?
      <>   <CheckLogin/>
         <div className="flex flex-col w-screen">
         <div className="md:flex md:flex-row flex-col">
-            <MainTaskContainer userStory={userStory}/>
+            <MainTaskContainer userStory={userStory} key={userStory?._id}/>
 
-            <RightPanelContainer key={userStory?._id} userStory={userStory}/>
+            <RightPanelContainer userStory={userStory}/>
         </div>
         <div className="w-full border border-slate-200">
-            <CommentContainer key={userStory?._id} taskId={taskId.id}/>
+            <CommentContainer taskId={taskId.id}/>
         </div>
         </div>
         </>
-        }
+        :""}
     </div>
   )
 }

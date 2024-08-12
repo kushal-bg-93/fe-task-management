@@ -1,9 +1,11 @@
 import React, { useEffect, useState } from 'react'
 import { BACKEND_URL } from '../../utils/constants'
-import { token } from '../../utils/getToken'
 import { Link, useNavigate } from 'react-router-dom'
+import Cookies from 'universal-cookie'
 
 const Subtask = ({subTask}) => {
+    const cookies = new Cookies(null, { path: '/'});
+        let token=cookies.get('token')
     const navigate=useNavigate()
     const [email,setEmail]=useState(null)
     console.log('This is subtask in subtask',subTask)
