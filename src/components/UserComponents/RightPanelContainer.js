@@ -65,7 +65,7 @@ const RightPanelContainer = ({ userStory }) => {
   }
   useEffect(() => {
       getEmails()
-  }, [])
+  }, [assignedByEmail])
   return (
     <div className='flex flex-col gap-5 p-2'>
       <div className="">
@@ -113,10 +113,10 @@ const RightPanelContainer = ({ userStory }) => {
         <div className="mt-4 flex gap-4 items-center">
           <p className={(taskStatus == 'open') ? 'bg-green-700 text-white p-1 rounded-md w-fit' : (taskStatus == 'on progress') ? 'bg-yellow-500 text-white p-1 rounded-md text-[12px]' : (taskStatus == 'done') ? 'bg-slate-400 text-white p-1 rounded-md w-fit' : 'bg-sky-500 text-white p-1 rounded-md w-fit'}>{taskStatus}</p>
           <div className="relative">
-        {
+        {userStory?.assignedTo?
           (userStory?.assignedTo.some(uid=>uid==userId))&&
           <button className='text-sky-500' onClick={()=>setStatusPopup(true)}>Change Status</button>
-        }
+        :""}
         {
           statusPopup&&<div className='absolute left-0 top-0 z-10 bg-white pb-2 px-2 shadow-md pt-0 border border-slate-400 rounded-md flex flex-col'>
             <button className='text-end p-0' onClick={()=>setStatusPopup(false)}>x</button>
