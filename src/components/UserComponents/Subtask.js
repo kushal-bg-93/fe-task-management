@@ -39,8 +39,8 @@ const Subtask = ({subTask}) => {
             </div>
         }
         <p className='text-slate-900 text-[10px] md:text-[16px] md:w-[60%] w-[40%]'>{subTask?.title}</p>
-        <p className='text-[10px] md:text-[16px]'>{subTask.status}</p>
-        <p className='hidden md:block'>{subTask.priority}</p>
+        <p className='text-[10px] text-slate-900 md:text-[16px]'>{subTask.status}</p>
+        <p className='hidden md:block text-slate-900'>{subTask.priority}</p>
         <Link className='text-sky-500 text-[10px] md:text-[16px]' to={'/user/view-task/'+subTask._id}>View</Link>
         {/* <a className='text-sky-500' href={'/user/view-task/'+subTask._id}>View</a> */}
 

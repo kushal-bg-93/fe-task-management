@@ -9,7 +9,7 @@ const Header = () => {
         <div className="bg-slate-900 w-full shadow-2xl flex justify-between">
             <Link to="/">
             <div className="flex gap-1 items-center">
-            <img src="https://dms-prod-storage1.censanext.com/receivable/logo_1723037534.png" alt="logo" className='w-11 m-1'/>
+            <img src="https://be-task-management-production.up.railway.app/logo.png" alt="logo" className='w-11 m-1'/>
             <h3 className='text-white font-extrabold'>TaskO!</h3>
 
             </div>

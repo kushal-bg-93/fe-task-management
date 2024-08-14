@@ -51,7 +51,7 @@ const MainTaskContainer = ({userStory}) => {
                 <div className="flex justify-between items-center relative">
                     <h3 className='font-bold text-slate-900 text-xl'>Subtasks</h3>
                     <IoMdAddCircle onClick={()=>setShowSubtask(true)} className='text-2xl cursor-pointer text-slate-900'/>
-                {showSubtask&&<div className="absolute right-10 bg-white top-0 pb-6 pt-0 px-3 border border-slate-300 rounded-md shadow-md w-[50%] flex flex-col">
+                {showSubtask&&<div className="absolute right-10 bg-white top-0 pb-6 pt-0 px-3 border border-slate-300 rounded-md shadow-md w-[80%] md:w-[50%] flex flex-col">
                     <button className='text-end text-lg' onClick={()=>setShowSubtask(false)}>x</button>
                     <div className="flex gap-2 items-center">
                     <input type="text" className='border border-slate-300 w-[90%] p-3 rounded-md' placeholder='Enter Title' ref={description}/>

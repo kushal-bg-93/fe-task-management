@@ -32,7 +32,7 @@ const ViewTaskContainer = () => {
     },[taskId])
   return (
     
-    <div>
+    <div className='overflow-x-hidden'>
 {userStory?
      <>   <CheckLogin/>
         <div className="flex flex-col w-screen">
