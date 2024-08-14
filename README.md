@@ -30,3 +30,8 @@
  2. Admin credential
     `Email`    : `kushaltmx@gmail.com`
     `Password` : `test123`
+
+## V3 Timesheet implementation
+  1. User can log time for that particular
+  2. User can view logged time
+  3. Manager approves the timesheets logged by the user
