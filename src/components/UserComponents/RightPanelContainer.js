@@ -2,6 +2,10 @@ import React, { useEffect, useRef, useState } from 'react'
 import { BACKEND_SOCKET_URL, BACKEND_URL } from '../../utils/constants'
 import socketIOClient from 'socket.io-client'
 import Cookies from 'universal-cookie'
+import { TiUserAdd } from "react-icons/ti";
+import store from '../../utils/store';
+import { useDispatch, useSelector } from 'react-redux';
+import { setAutoSuggestions,removeAutoSuggestion } from '../../utils/userAutoSuggestionSlice';
 
 const RightPanelContainer = ({ userStory }) => {
   const cookies = new Cookies(null, { path: '/'});
@@ -15,7 +19,76 @@ let userId=cookies.get('userId')
   const [taskStatus,setTaskStatus]=useState(userStory.status)
   const [statusPopup,setStatusPopup]=useState(false)
   const [forceUpdate, setForceUpdate] = useState(false);
+  const [userSearchPopup,setUserSearchPopup]=useState(false)
+  
+  const [searchText,setSearchText]=useState(null)
+  const autoSuggestionResults=useSelector(store=>store?.autoSuggestionUser?.result)
+  const [searchResults,setSearchResults]=useState(null)
+  const [searchResultStatus,setSearchResultStatus]=useState(false)
+  const [assignedTo,setAssignedTo]=useState(userStory?.assignedTo)
+  const [searchSelectList,setSearchSelectList]=useState([])
   const statusRef=useRef(null)
+  const dispatch=useDispatch()
+
+  useEffect(()=>{
+    let timer=setTimeout(()=>{getAutoSuggestion()},300)
+    
+    return ()=>clearTimeout(timer)
+},[searchText,searchResults])
+
+
+  async function getAutoSuggestion(){
+
+    if(searchText){
+        if(!autoSuggestionResults[searchText]){
+            let searchRes={}
+            
+            // console.log('url>>',searchText)
+            
+            let data=await fetch(BACKEND_URL+'/common-user/searchUser?search='+searchText+'&projectId='+userStory?.projectId,{
+              method:'GET',
+              headers:{
+                'Content-Type':'application/json',
+                'authorization':token
+              },
+            })
+            data=await data.json();
+            
+
+            data.result.data=data?.result?.data.filter(user=>{
+              return !assignedTo.some(userId=>userId==user?._id)
+            })
+
+
+            searchRes[searchText]=data?.result?.data
+
+            dispatch(setAutoSuggestions(searchRes))
+            // console.log('This is autosuggestion>>>',data)
+        }
+        setSearchResults(autoSuggestionResults[searchText])
+
+    }
+}
+
+const searchSuggestionClickHandle=async(user)=>{
+  let data=await fetch(BACKEND_URL+'/common-tasks/assign-task',{
+    method:'POST',
+    headers:{
+      'Content-Type':'application/json',
+      'authorization':token
+    },
+    body:JSON.stringify({
+      taskId:userStory?._id,
+      userId:user?._id
+    })
+  })
+
+  data=await data.json()
+  setUserSearchPopup(false)
+  dispatch(removeAutoSuggestion())
+  setSearchResults(null)
+  setSearchText(null)
+}
 
   const getOwnerEmail=async()=>{
     let ownerEmail=await fetch(BACKEND_URL + '/common-tasks/getEmail', {
@@ -43,7 +116,7 @@ let userId=cookies.get('userId')
         'authorization': token
       },
       body:JSON.stringify({
-        assignedTo:userStory?.assignedTo
+        assignedTo:assignedTo
       })
     })  
 
@@ -53,6 +126,11 @@ let userId=cookies.get('userId')
     
     setEmails(data?.result?.data)
   }
+
+  socket.on(`newAssignedToUser:${userStory?._id}`,(user)=>{
+    // console.log('This is the user from socket >>>',user)
+    setAssignedTo(user?.assignedTo)
+  })
 
   socket.on(`changeStatus:${userStory?._id}`, (status) => {
     setTaskStatus(status)
@@ -78,7 +156,7 @@ let userId=cookies.get('userId')
       getOwnerEmail()
 
       
-  }, [])
+  }, [assignedTo])
 
   useEffect(()=>{
     return () => {
@@ -94,7 +172,37 @@ let userId=cookies.get('userId')
 
         {
           emails && <>
-            <p className='text-center text-slate-900'>Assigned To</p>
+          <div className="flex gap-3 relative justify-center items-center">
+            
+                <p className='text-center text-slate-900'>Assigned To</p>
+                <TiUserAdd className='text-end grid-cols-1 text-slate-900 text-lg cursor-pointer' onClick={()=>setUserSearchPopup(true)}/>
+
+                {
+                userSearchPopup && 
+                <div className="absolute rounded shadow-md border border-slate-300 px-2 pb-3 w-[100%] bg-white z-10 left-[-50%] top-[20%] flex flex-col">
+                  <button className="text-end" onClick={()=>setUserSearchPopup(false)}>x</button>
+                  <div className="relative">
+                  <input type="text" className='p-2 w-full border border-slate-300 rounded-md' placeholder='Search User' value={searchText} onChange={(e)=>setSearchText(e.target.value)} onFocus={()=>setSearchResultStatus(true)} onBlur={()=>setTimeout(()=>setSearchResultStatus(false),200)}/>
+
+                  {(searchResultStatus && searchResults)?<div className="absolute bottom-0 top-[90%] w-[99%] z-30 border h-fit border-slate-300 bg-white px-2 pt-2 ">
+          {
+            searchResults && <>
+                {
+                  searchResults.map((element)=><>
+                  <div className="flex mb-5 gap-3 hover:bg-gray-50 items-center cursor-pointer"  onClick={()=>searchSuggestionClickHandle(element)} key={element?._id}>
+                  <button className='bg-yellow-500 rounded-full text-white px-3 py-1'>{element?.email[0]}</button>
+                  <p className='cursor-pointer text-slate-900  rounded-md'>{element.name}</p>
+                  </div>
+                  </>)
+                }
+            </>
+          }
+
+        </div>:""}
+
+                  </div>
+                </div>}
+          </div>
 
             <div className="flex flex-wrap gap-2 mt-3">
               {

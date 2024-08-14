@@ -17,10 +17,13 @@ const autoSuggestionSlice=createSlice(
         reducers:{
             setAutoSuggestions:(state,action)=>{
                 state.result={...state.result,...action.payload}
+            },
+            removeAutoSuggestion:(state,action)=>{
+                state.result={}
             }
         }
     }
 )
 
-export const {setAutoSuggestions}=autoSuggestionSlice.actions;
+export const {setAutoSuggestions,removeAutoSuggestion}=autoSuggestionSlice.actions;
 export default autoSuggestionSlice.reducer;
