@@ -179,10 +179,10 @@ const searchSuggestionClickHandle=async(user)=>{
 
                 {
                 userSearchPopup && 
-                <div className="absolute rounded shadow-md border border-slate-300 px-2 pb-3 w-[100%] bg-white z-10 left-[-50%] top-[20%] flex flex-col">
+                <div className="absolute rounded shadow-md border border-slate-300 px-2 pb-3 w-[65%] md:w-[100%] bg-white z-10 md:left-[-50%] left-[5%] top-[-100%] md:top-[20%] flex flex-col">
                   <button className="text-end" onClick={()=>setUserSearchPopup(false)}>x</button>
                   <div className="relative">
-                  <input type="text" className='p-2 w-full border border-slate-300 rounded-md' placeholder='Search User' value={searchText} onChange={(e)=>setSearchText(e.target.value)} onFocus={()=>setSearchResultStatus(true)} onBlur={()=>setTimeout(()=>setSearchResultStatus(false),200)}/>
+                  <input type="text" className='md:p-2 p-1 w-full border border-slate-300 rounded-md' placeholder='Search User' value={searchText} onChange={(e)=>setSearchText(e.target.value)} onFocus={()=>setSearchResultStatus(true)} onBlur={()=>setTimeout(()=>setSearchResultStatus(false),200)}/>
 
                   {(searchResultStatus && searchResults)?<div className="absolute bottom-0 top-[90%] w-[99%] z-30 border h-fit border-slate-300 bg-white px-2 pt-2 ">
           {
