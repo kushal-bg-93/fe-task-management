@@ -6,6 +6,8 @@ import { Link } from 'react-router-dom';
 import { IoMdAddCircle,IoMdAdd } from "react-icons/io";
 import ViewSubtask from './ViewSubtask';
 import { token } from '../../utils/getToken';
+import { toast } from "react-toastify";
+
 
 
 const MainTaskContainer = ({userStory}) => {
@@ -29,7 +31,7 @@ const MainTaskContainer = ({userStory}) => {
 
             postSubtask=await postSubtask.json()
             setShowSubtask(false)
-            
+            toast.success("Subtask created")
         }
     }
   return (

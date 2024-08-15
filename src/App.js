@@ -11,6 +11,7 @@ import store from "./utils/store";
 import Logout from "./components/Logout";
 import ViewTasks from "./components/UserComponents/ViewTasks";
 import ViewTaskContainer from "./components/UserComponents/ViewTaskContainer";
+import UserStoryShimmer from "./components/UserComponents/UserStoryShimmer";
 
 export const appRouter=createBrowserRouter([
   {
@@ -48,6 +49,10 @@ export const appRouter=createBrowserRouter([
       {
         path:"/user/view-task/:id",
         element:<ViewTaskContainer/>
+      },
+      {
+        path:"/shimmer",
+        element:<UserStoryShimmer/>
       }
     ]
   },

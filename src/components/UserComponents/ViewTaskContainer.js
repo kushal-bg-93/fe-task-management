@@ -6,6 +6,7 @@ import { BACKEND_URL } from '../../utils/constants'
 import { useParams } from 'react-router-dom'
 import Cookies from 'universal-cookie'
 import CheckLogin from '../CheckLogin'
+import UserStoryShimmer from './UserStoryShimmer'
 
 const ViewTaskContainer = () => {
     const [userStory,setUserStory]=useState(null)
@@ -46,7 +47,7 @@ const ViewTaskContainer = () => {
         </div>
         </div>
         </>
-        :""}
+        :<div className='w-screen'><UserStoryShimmer /></div>}
     </div>
   )
 }

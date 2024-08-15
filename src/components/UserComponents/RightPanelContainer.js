@@ -6,6 +6,7 @@ import { TiUserAdd } from "react-icons/ti";
 import store from '../../utils/store';
 import { useDispatch, useSelector } from 'react-redux';
 import { setAutoSuggestions,removeAutoSuggestion } from '../../utils/userAutoSuggestionSlice';
+import { toast } from "react-toastify";
 
 const RightPanelContainer = ({ userStory }) => {
   const cookies = new Cookies(null, { path: '/'});
@@ -88,6 +89,7 @@ const searchSuggestionClickHandle=async(user)=>{
   dispatch(removeAutoSuggestion())
   setSearchResults(null)
   setSearchText(null)
+  toast.success("User assigned")
 }
 
   const getOwnerEmail=async()=>{
@@ -148,7 +150,9 @@ const searchSuggestionClickHandle=async(user)=>{
         taskId:userStory?._id
       })
     })
+    toast.success("Status Updated")
     setStatusPopup(false)
+
 
   }
   useEffect(() => {
