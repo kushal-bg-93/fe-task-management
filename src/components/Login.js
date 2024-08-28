@@ -15,6 +15,12 @@ const Login = () => {
     const dispatch=useDispatch()
     const cookies = new Cookies(null, { path: '/',expires: new Date(Date.now()+259200000) });
 
+    const handleCredentials=(eml,pswd,rle)=>{
+        email.current.value=eml;
+        password.current.value=pswd;
+        role.current.value=rle;
+    }
+
     const handleLoginClick=async(e)=>{
         console.log('email :',email.current.value,"password : ",password.current.value,"role: ",role.current.value)
 
@@ -74,6 +80,10 @@ const Login = () => {
             </select>
 
             <button className='text-white bg-slate-900 rounded-md p-2 my-2' onClick={handleLoginClick}>LOGIN</button>
+            <button className='text-white bg-slate-900 rounded-md p-2 my-2' onClick={()=>handleCredentials("kushaltmx@live.com","test123","user")}>Test Credential 1</button>
+            <button className='text-white bg-slate-900 rounded-md p-2 my-2' onClick={()=>handleCredentials("kushaltmx@gmail.com","test123","admin")}>Admin Credential 1</button>
+
+
             {error&&<p className='text-red-700 text-center font-extrabold'>{error}</p>}
         </form>
         </div>
