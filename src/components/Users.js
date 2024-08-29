@@ -3,6 +3,7 @@ import { BACKEND_SOCKET_URL, BACKEND_URL } from '../utils/constants'
 import TableComponent from './TableComponent'
 import socketIOClient from 'socket.io-client'
 import Cookies from 'universal-cookie'
+import Loader from './Loader'
 
 
 const Users = () => {
@@ -26,8 +27,10 @@ let userId=cookies.get('userId')
   const [filterStatus,setFilterStatus]=useState(false)
   const [selectedFilteredData,setSelectedFilteredData]=useState([])
   const [projectId,setProjectId]=useState([])
+  const [loader,setLoader]=useState(false)
 
   const getUsers=async()=>{
+    setLoader(true)
     let data=await fetch(BACKEND_URL+'/admin/get-users',{
       method:'GET',
       headers:{
@@ -37,6 +40,7 @@ let userId=cookies.get('userId')
     })
 
     data=await data.json()
+    setLoader(false)
     setUsers(data?.result?.data)
   }
 
@@ -79,6 +83,7 @@ let userId=cookies.get('userId')
   }
 
   const handleSubmit=async()=>{
+    setLoader(true)
     let data=await fetch(BACKEND_URL+'/admin/create-user',{
       method:'POST',
       headers:{
@@ -102,6 +107,7 @@ let userId=cookies.get('userId')
     setSelectedFilteredData([])
 
     data=await data.json()
+    setLoader(false)
   }
 
   socket.on(`createUser:${userId}`,(user)=>{
@@ -118,11 +124,12 @@ let userId=cookies.get('userId')
       socket.disconnect();
       console.log('Socket disconnected');
     };
-  },[])
+  },[selectedFilteredData])
 
 
   return (
     <div className='w-full overflow-x-hidden'>
+      {loader?<Loader/>:""}
       <div className="md:flex md:flex-row flex flex-col gap-4 m-5">
         <div className="md:w-[60%] w-full">
 

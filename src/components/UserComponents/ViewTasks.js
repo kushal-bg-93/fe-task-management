@@ -3,6 +3,7 @@ import { Link, useParams } from 'react-router-dom'
 import { BACKEND_URL } from '../../utils/constants'
 import Cookies from 'universal-cookie';
 import CheckLogin from '../CheckLogin';
+import Loader from '../Loader';
 
 const ViewTasks = () => {
     const cookies = new Cookies(null, { path: '/'});
@@ -12,8 +13,10 @@ const ViewTasks = () => {
     const [currentPage,setCurrentPage]=useState(1)
     const [totalPage,setTotalPage]=useState(1)
     const [taskData,setTaskData]=useState(null)
+    const [loader,setLoader]=useState(false)
 
     const getTasks=async()=>{
+      setLoader(true)
         let data=await fetch(BACKEND_URL+'/common-tasks/view-tasks',{
             method:'POST',
             headers:{
@@ -29,6 +32,7 @@ const ViewTasks = () => {
         })
 
         data=await data?.json();
+        setLoader(false)
         if(data?.result?.data?.result) 
             {
                 const {total,pageSize}=data?.result?.data?.pageData
@@ -44,6 +48,7 @@ const ViewTasks = () => {
 
   return (
     <div>
+      {loader?<Loader/>:""}
         <CheckLogin/>
         <div className="m-10">
         {taskData&&<div className="flex gap-2 overflow-x-auto mx-2 my-4">

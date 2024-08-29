@@ -3,18 +3,21 @@ import {BACKEND_URL} from "../utils/constants"
 import Cookies from 'universal-cookie';
 import CheckLogin from './CheckLogin';
 import CreateTaskPopup from './Create-Task-Popup';
+import Loader from './Loader';
 
 const Tasks = () => {
   const [tasks,setTasks]=useState(null)
   const [currentPage, setCurrentPage] = useState(1);
   const [totalPage,setTotalPage]=useState(1)
   const [showModal,setShowModal]=useState(false)
+  const [loader,setLoader]=useState(false)
 
   const cookies = new Cookies(null, { path: '/'});
   let token=cookies.get('token')
   let userId=cookies.get('userId')
 
   const fetchTasks=async()=>{
+    setLoader(true)
     let data=await fetch(BACKEND_URL+`/admin/view-tasks?pageNo=${currentPage}`,{
       method:'GET',
       headers:{
@@ -29,6 +32,7 @@ const Tasks = () => {
       // })
     })
     data=await data.json()
+    setLoader(false)
     setTasks(data?.result?.data?.result)
     let {total,pageSize}=data?.result?.data?.pageData
     setTotalPage(Math.ceil(total/pageSize))
@@ -41,6 +45,7 @@ const Tasks = () => {
   return (
     <div>
       <CheckLogin/>
+      {loader?<Loader/>:""}
       {showModal && <CreateTaskPopup setModal={setShowModal}/>}
       <div className="flex my-4 mx-2">
         <button className='bg-slate-900 text-white md:text-base md:p-4 p-1 text-[6px] rounded-md ' onClick={()=>setShowModal(true)}>CREATE TASK</button>

@@ -11,7 +11,7 @@ const ViewSubtask = ({taskId}) => {
   const cookies = new Cookies(null, { path: '/'});
 let token=cookies.get('token')
 let userId=cookies.get('userId')
-  const [subTasks,setSubTasks]=useState(null)
+  const [subTasks,setSubTasks]=useState([])
   const socket = socketIOClient(BACKEND_SOCKET_URL,{ transports : ['websocket'] });
   const navigate=useNavigate()
 
@@ -45,13 +45,14 @@ let userId=cookies.get('userId')
 
   socket.on(`newSubtask:${taskId}`, (subTask) => {
     console.log('This is subtask from socket',subTask)
-    if(subTasks)
-    {
-      setSubTasks([subTask,...subTasks])
+    setSubTasks([subTask,...subTasks])
+    // if(subTasks)
+    // {
+    //   setSubTasks([subTask,...subTasks])
 
-    }else{
-      setSubTasks([subTask])
-    }
+    // }else{
+    //   setSubTasks([subTask])
+    // }
     // setTaskStatus(status)
   });
 

@@ -5,12 +5,15 @@ import Cookies from 'universal-cookie';
 import { useNavigate } from 'react-router-dom';
 import { useDispatch } from 'react-redux';
 import { addUser } from '../utils/userSlice';
+import { InfinitySpin, Watch } from 'react-loader-spinner';
+import Loader from './Loader';
 
 const Login = () => {
     const email=useRef(null)
     const password=useRef(null)
     const role=useRef(null)
     const [error,setError]=useState(null)
+    const [loader,setLoader]=useState(false)
     const navigate=useNavigate()
     const dispatch=useDispatch()
     const cookies = new Cookies(null, { path: '/',expires: new Date(Date.now()+259200000) });
@@ -22,7 +25,8 @@ const Login = () => {
     }
 
     const handleLoginClick=async(e)=>{
-        console.log('email :',email.current.value,"password : ",password.current.value,"role: ",role.current.value)
+        setLoader(true)
+        // console.log('email :',email.current.value,"password : ",password.current.value,"role: ",role.current.value)
 
         const loginResult=await fetch(BACKEND_URL+'/auth/login',{
             method:'POST',
@@ -49,6 +53,7 @@ const Login = () => {
             cookies.set('token',data?.result?.token?.token)
             cookies.set('role',data?.result?.role)
             cookies.set('userId',data?.result?._id)
+            setLoader(false)
             navigate('/')
         }
     }
@@ -63,6 +68,9 @@ const Login = () => {
   return (
     <div>
         <Header/>
+        {
+            loader?<Loader/>:""
+        }
         <div className="md:w-4/12 w-[90%] p-4 top-[50%] left-[50%] translate-x-[-50%] translate-y-[-50%] absolute border border-slate-300 shadow-md shadow-slate-300 rounded-md">
         {/* <h1 className='font-bold text-slate-900 text-center'>LOGIN</h1> */}
         <form action="" className='m-2 flex flex-col justify-center' onSubmit={(e)=>e.preventDefault()}>

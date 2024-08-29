@@ -5,12 +5,14 @@ import { setModal } from '../utils/projectSlice'
 import { BACKEND_URL } from '../utils/constants'
 import Cookies from 'universal-cookie'
 import CheckLogin from './CheckLogin'
+import Loader from './Loader'
 
 const Project = () => {
     const modalStatus=useSelector(store=>store.project)
     const dispatch=useDispatch()
     const projectName=useRef(null)
     const [project,setProject]=useState(null)
+    const [loader,setLoader]=useState(false)
 
     useEffect(()=>{
         getProject()
@@ -21,6 +23,7 @@ const Project = () => {
     let token=cookies.get('token')
 
     const addProject=async()=>{
+        setLoader(true)
         const addPrjct=await fetch(BACKEND_URL+'/admin/create-project',{
             method:'POST',
             headers:{
@@ -33,13 +36,15 @@ const Project = () => {
             })
         })
         const data=await addPrjct.json()
-        console.log('This is data',data)
+        // console.log('This is data',data)
+        setLoader(false)
         if(data?.message=="Success"){
             dispatch(setModal())
         }
     }
 
     const getProject=async()=>{
+        setLoader(true)
         const project=await fetch(BACKEND_URL+'/admin/view-project',{
             method:'GET',
             headers:{
@@ -48,6 +53,7 @@ const Project = () => {
             }
         })
 
+        setLoader(false)
         const data=await project.json();
 
         setProject(data?.result?.data)
@@ -55,6 +61,9 @@ const Project = () => {
 
   return (
     <div className='overflow-x-hidden'>
+        {
+            loader?<Loader/>:""
+        }
         <CheckLogin/>
         {modalStatus?.showModal && <div>
             <div className="w-[40%] border border-slate-300 absolute bg-white p-4 rounded-md shadow-2xl translate-x-[-50%] translate-y-[-50%] top-[30%] left-[50%] flex items-center text-center z-10">
