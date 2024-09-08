@@ -9,12 +9,14 @@ import { setAutoSuggestions } from '../utils/userAutoSuggestionSlice';
 import Calendar from 'react-calendar';
 import 'react-calendar/dist/Calendar.css'; 
 import moment from 'moment';
+import {changeStatus} from '../utils/taskSlice'
 
 
 const CreateTaskPopup = ({setModal}) => {
     const cookies = new Cookies(null, { path: '/'});
     const [searchText,setSearchText]=useState(null)
     const autoSuggestionResults=useSelector(store=>store?.autoSuggestionUser?.result)
+    const taskStatus=useSelector(store=>store?.adminTask?.taskStatus)
     const [searchResults,setSearchResults]=useState(null)
     const [searchResultStatus,setSearchResultStatus]=useState(false)
     const [assignedTo,setAssignedTo]=useState([])
@@ -22,12 +24,12 @@ const CreateTaskPopup = ({setModal}) => {
     const [projectResults,setProjectResults]=useState(null)
     const [date, setDate] = useState(new Date());
     const [calendarStatus,setCalendarStatus]=useState(false)
-
+    
     let token=cookies.get('token')
     let userId=cookies.get('userId')
     const navigate=useNavigate()
     const dispatch=useDispatch()
-
+    
     const title=useRef(null)
     const description=useRef(null)
     const assignTo=useRef(null)
@@ -35,7 +37,9 @@ const CreateTaskPopup = ({setModal}) => {
     const projectId=useRef(null)
     const deadLine=useRef(null)
     const fileInputRef=useRef(null)
-
+    
+    // console.log("This is task status",taskStatus)
+    // dispatch(changeStatus(!taskStatus))
     // console.log('This is assignedTo',assignedTo)
 
     const searchSuggestionClickHandle=(element)=>{
@@ -104,6 +108,9 @@ const CreateTaskPopup = ({setModal}) => {
     };
 
     const handleSubmit = async (event) => {
+        setTimeout(() => {
+          dispatch(changeStatus(!taskStatus))
+        }, 1000);
         setModal(false)
         event.preventDefault();
     
@@ -133,6 +140,7 @@ const CreateTaskPopup = ({setModal}) => {
           });
 
           const data=await data.json()
+          
           // navigate(0)
           close();
         } catch (error) {

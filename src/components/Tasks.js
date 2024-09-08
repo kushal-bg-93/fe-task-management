@@ -4,6 +4,8 @@ import Cookies from 'universal-cookie';
 import CheckLogin from './CheckLogin';
 import CreateTaskPopup from './Create-Task-Popup';
 import Loader from './Loader';
+import { useSelector } from 'react-redux';
+import store from '../utils/store';
 
 const Tasks = () => {
   const [tasks,setTasks]=useState(null)
@@ -11,6 +13,7 @@ const Tasks = () => {
   const [totalPage,setTotalPage]=useState(1)
   const [showModal,setShowModal]=useState(false)
   const [loader,setLoader]=useState(false)
+  const taskStatus=useSelector(store=>store?.adminTask?.taskStatus)
 
   const cookies = new Cookies(null, { path: '/'});
   let token=cookies.get('token')
@@ -40,7 +43,7 @@ const Tasks = () => {
 
   useEffect(()=>{
     fetchTasks();
-  },[currentPage])
+  },[currentPage,taskStatus])
 
   return (
     <div>
