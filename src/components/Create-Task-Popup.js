@@ -36,7 +36,7 @@ const CreateTaskPopup = ({setModal}) => {
     const deadLine=useRef(null)
     const fileInputRef=useRef(null)
 
-    console.log('This is assignedTo',assignedTo)
+    // console.log('This is assignedTo',assignedTo)
 
     const searchSuggestionClickHandle=(element)=>{
       if(!assignedTo.some(item=>item==element?._id)){
@@ -87,7 +87,7 @@ const CreateTaskPopup = ({setModal}) => {
               },
             })
             data=await data.json();
-            console.log('This is autosuggest data>>',data)
+            // console.log('This is autosuggest data>>',data)
             
             searchRes[searchText]=data?.result?.data
             dispatch(setAutoSuggestions(searchRes))
@@ -121,7 +121,7 @@ const CreateTaskPopup = ({setModal}) => {
           formDataToSend.append('attachments', files[i]);
         }
 
-        console.log('This is form data',formDataToSend)
+        // console.log('This is form data',formDataToSend)
     
         try {
           const response = await fetch(BACKEND_URL+'/admin/create-task', {

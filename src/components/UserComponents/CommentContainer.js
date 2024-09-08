@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react'
+import React, { useEffect, useState,memo } from 'react'
 import { BACKEND_IMAGE_URL, BACKEND_SOCKET_URL, BACKEND_URL } from '../../utils/constants'
 import Cookies from 'universal-cookie'
 import socketIOClient from 'socket.io-client';
@@ -7,6 +7,7 @@ import moment from 'moment';
 const socket = socketIOClient(BACKEND_SOCKET_URL,{ transports : ['websocket'] });
 
 const CommentContainer = ({taskId}) => {
+    console.log('child comment container')
     const [comments,setComments]=useState([])
     const [currentPage,setCurrentPage]=useState(1)
     const [totalPage,setTotalPage]=useState(1)
@@ -49,7 +50,7 @@ const CommentContainer = ({taskId}) => {
             const {total,pageSize}=data?.result?.data?.pageData
             setTotalPage(Math.ceil(total/pageSize))
         }
-        console.log("this is comments",comments)
+        // console.log("this is comments",comments)
 
     }
 
@@ -72,7 +73,7 @@ const CommentContainer = ({taskId}) => {
     useEffect(()=>{
         return () => {
             socket.disconnect();
-            console.log('Socket disconnected');
+            // console.log('Socket disconnected');
           };
     },[])
   return (

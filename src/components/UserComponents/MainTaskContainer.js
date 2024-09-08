@@ -11,7 +11,9 @@ import { toast } from "react-toastify";
 
 
 const MainTaskContainer = ({userStory}) => {
+    console.log("parent rendered")
     const [showSubtask,setShowSubtask]=useState(false)
+    const [loadSubtask,setLoadSubTask]=useState(false)
     const description=useRef(null)
     const addSubtask=async()=>{
         if(description!=="" || description!==null){
@@ -31,6 +33,7 @@ const MainTaskContainer = ({userStory}) => {
 
             postSubtask=await postSubtask.json()
             setShowSubtask(false)
+            setLoadSubTask(!loadSubtask)
             toast.success("Subtask created")
         }
     }
@@ -63,7 +66,7 @@ const MainTaskContainer = ({userStory}) => {
                 </div>}
                 </div>
                 <div className="flex flex-col gap-3">
-                    <ViewSubtask key={userStory?._id} taskId={userStory?._id} projectId={userStory?.projectId}/>
+                    <ViewSubtask key={userStory?._id} taskId={userStory?._id} projectId={userStory?.projectId} showSubtask={loadSubtask}/>
                 </div>
             </div>
             <div className='mt-10'>

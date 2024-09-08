@@ -1,4 +1,4 @@
-import React, { useEffect, useRef, useState } from 'react'
+import React, { useEffect, useRef, useState,memo } from 'react'
 import { BACKEND_SOCKET_URL, BACKEND_URL } from '../../utils/constants'
 import socketIOClient from 'socket.io-client'
 import Cookies from 'universal-cookie'
@@ -165,7 +165,7 @@ const searchSuggestionClickHandle=async(user)=>{
   useEffect(()=>{
     return () => {
       socket.disconnect();
-      console.log('Socket disconnected');
+      // console.log('Socket disconnected');
     };
   },[])
 

@@ -111,7 +111,7 @@ let userId=cookies.get('userId')
   }
 
   socket.on(`createUser:${userId}`,(user)=>{
-    console.log('This is socket response',user)
+    // console.log('This is socket response',user)
     setUsers([user,...users])
   })
 
@@ -122,7 +122,7 @@ let userId=cookies.get('userId')
 
     return () => {
       socket.disconnect();
-      console.log('Socket disconnected');
+      // console.log('Socket disconnected');
     };
   },[selectedFilteredData])
 

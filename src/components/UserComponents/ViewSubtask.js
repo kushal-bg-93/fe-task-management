@@ -7,7 +7,7 @@ import { useNavigate } from 'react-router-dom'
 import Cookies from 'universal-cookie'
 
 
-const ViewSubtask = ({taskId}) => {
+const ViewSubtask = ({taskId,showSubtask}) => {
   const cookies = new Cookies(null, { path: '/'});
 let token=cookies.get('token')
 let userId=cookies.get('userId')
@@ -34,27 +34,27 @@ let userId=cookies.get('userId')
     fetchSubtasks()
 
     
-  },[taskId])
+  },[taskId,showSubtask])
 
   useEffect(()=>{
     return () => {
       socket.disconnect();
-      console.log('Socket disconnected');
+      // console.log('Socket disconnected');
     };
   },[])
 
-  socket.on(`newSubtask:${taskId}`, (subTask) => {
-    console.log('This is subtask from socket',subTask)
-    setSubTasks([subTask,...subTasks])
-    // if(subTasks)
-    // {
-    //   setSubTasks([subTask,...subTasks])
+  // socket.on(`newSubtask:${taskId}`, (subTask) => {
+  //   // console.log('This is subtask from socket',subTask)
+  //   setSubTasks([subTask,...subTasks])
+  //   // if(subTasks)
+  //   // {
+  //   //   setSubTasks([subTask,...subTasks])
 
-    // }else{
-    //   setSubTasks([subTask])
-    // }
-    // setTaskStatus(status)
-  });
+  //   // }else{
+  //   //   setSubTasks([subTask])
+  //   // }
+  //   // setTaskStatus(status)
+  // });
 
 
   return subTasks?(
